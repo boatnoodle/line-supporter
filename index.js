@@ -1,6 +1,7 @@
 require("dotenv").config();
 const functions = require("@google-cloud/functions-framework");
 const { ValidateSignature } = require("./utils/validateSignature");
+const { RouterEventHandler } = require("./utils/routerEventHandler");
 
 // Register an HTTP function with the Functions Framework
 functions.http("lineWebhookFunction", (req, res) => {
@@ -8,6 +9,9 @@ functions.http("lineWebhookFunction", (req, res) => {
   if (!validateSignature.isSecureRequest()) {
     res.send(403, "Invalid signature");
   }
+
+  const routerEventHandler = new RouterEventHandler(req, res);
+  routerEventHandler.initRouter();
 
   res.send("OK");
 });
