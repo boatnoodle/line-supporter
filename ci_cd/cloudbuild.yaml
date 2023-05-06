@@ -1,9 +1,9 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
-  dir: 'function/dir/from/repo/root'
+  dir: './'
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['functions', 'deploy', 'line-webhook', '--region', 'asia-east1', '--trigger-http', '--runtime', 'nodejs18', '--entry-point', 'lineWebhookFunction']
-  dir: 'function/dir/from/repo/root'
+  dir: './'
 options:
   logging: CLOUD_LOGGING_ONLY
