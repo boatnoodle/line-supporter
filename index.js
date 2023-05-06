@@ -13,5 +13,5 @@ functions.http("lineWebhookFunction", (req, res) => {
   const routerEventHandler = new RouterEventHandler(req, res);
   routerEventHandler.initRouter();
 
-  res.send("OK");
+  res.send(process.env.CHANNEL_SECRET);
 });
