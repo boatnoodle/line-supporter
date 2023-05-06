@@ -65,7 +65,6 @@ class MessageHandler extends MessageAPI {
           this.sendReplyMessage(message);
         }
         if (firstChar === "h") {
-          console.log("help message");
         }
       }
 
