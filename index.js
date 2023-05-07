@@ -5,7 +5,6 @@ const { RouterEventHandler } = require("./utils/routerEventHandler");
 
 // Register an HTTP function with the Functions Framework
 functions.http("lineWebhookFunction", (req, res) => {
-  res.send(process.env.CHANNEL_SECRET);
   const validateSignature = new ValidateSignature(req);
   if (!validateSignature.isSecureRequest()) {
     res.send(403, "Invalid signature");

@@ -26,6 +26,7 @@ class MessageHandler extends MessageAPI {
       const { type, id, text } = this.message;
       const textClean = text.toLowerCase();
       const firstChar = textClean.charAt(0);
+
       if (["h", "g"].includes(firstChar)) {
         //* Static data
         /**
@@ -67,14 +68,6 @@ class MessageHandler extends MessageAPI {
         if (firstChar === "h") {
         }
       }
-
-      console.log(
-        this.messageType,
-        this.message,
-        this.emojis,
-        this.mention,
-        this.replyToken
-      );
     }
 
     if (this.messageType == "sticker") {
