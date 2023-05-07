@@ -38,17 +38,7 @@ class Transaction extends MessageAPI {
         const response = await this.budget.updateBudgetById(budgetPlan?.id, {
           currentAmount,
         });
-
-        await this.sendReplyMessage([
-          {
-            type: "text",
-            text: `✅ Transaction has been created!`,
-          },
-          {
-            type: "text",
-            text: `📋 Now you're spending ${response?.currentAmount}/${response?.budgetAmount}Bath`,
-          },
-        ]);
+        return response;
       }
     } catch (error) {
       await this.sendReplyMessage({

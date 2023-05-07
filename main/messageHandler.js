@@ -75,23 +75,62 @@ class MessageHandler extends MessageAPI {
         }
       }
 
+      if (textClean.substring(0, 3) === "bgg") {
+        const [_, alias] = textClean.split(" ");
+        const response = await this.budget.getBudget({
+          alias,
+        });
+        if (response)
+          await this.sendReplyMessage([
+            {
+              type: "text",
+              text: `📋 Your currently ${response?.name} budget is`,
+            },
+            {
+              type: "text",
+              text: `${response?.currentAmount}/${response?.budgetAmount}Bath`,
+            },
+          ]);
+        else
+          await this.sendReplyMessage({
+            type: "text",
+            text: "❌ Not found your budget alias",
+          });
+      }
+
       if (textClean.substring(0, 3) === "bgs") {
         const [_, name, alias, budgetAmount] = textClean.split(" ");
 
-        await this.budget.createBudget({
+        const response = await this.budget.createBudget({
           name,
           alias,
           budgetAmount: parseInt(budgetAmount),
         });
+        if (response)
+          await this.sendReplyMessage({
+            type: "text",
+            text: "✅ Budget has been set!",
+          });
       }
 
       if (textClean.substring(0, 3) === "bga") {
         const [_, alias, amount] = textClean.split(" ");
 
-        await this.transaction.createTransaction({
+        const response = await this.transaction.createTransaction({
           alias,
           amount: parseInt(amount),
         });
+        if (response)
+          await this.sendReplyMessage([
+            {
+              type: "text",
+              text: `✅ Transaction has been created!`,
+            },
+            {
+              type: "text",
+              text: `📋 Now you're spending ${response?.currentAmount}/${response?.budgetAmount}Bath`,
+            },
+          ]);
       }
     }
 

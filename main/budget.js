@@ -8,17 +8,22 @@ class Budget extends MessageAPI {
     this.replyToken = replyToken;
   }
 
+  async getBudget(filter) {
+    try {
+      const response = await prisma.budgetPlan.findUnique({ where: filter });
+      return response;
+    } catch (error) {
+      await this.sendReplyMessage({
+        type: "text",
+        text: `❌ ${error?.message}`,
+      });
+    }
+  }
+
   async createBudget(input) {
     try {
       const response = await prisma.budgetPlan.create({ data: input });
-      if (response) {
-        await this.sendReplyMessage({
-          type: "text",
-          text: "✅ Budget has been set!",
-        });
-
-        return response;
-      }
+      return response;
     } catch (error) {
       await this.sendReplyMessage({
         type: "text",
