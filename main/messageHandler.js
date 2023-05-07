@@ -100,7 +100,7 @@ class MessageHandler extends MessageAPI {
 
       if (textClean.substring(0, 3) === "bgs") {
         const [_, name, alias, budgetAmount] = textClean.split(" ");
-
+        console.log(_, name, alias, budgetAmount, "before create");
         const response = await this.budget.createBudget({
           name,
           alias,
