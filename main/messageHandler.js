@@ -1,5 +1,6 @@
 const { MessageAPI } = require("../utils/messageAPI");
 const Budget = require("./budget");
+const Transaction = require("./transaction");
 
 class MessageHandler extends MessageAPI {
   messageType;
@@ -8,6 +9,7 @@ class MessageHandler extends MessageAPI {
   mention;
   replyToken;
   budget;
+  transaction;
 
   constructor() {
     super();
@@ -20,6 +22,7 @@ class MessageHandler extends MessageAPI {
     this.mention = messageEvent?.mention;
     this.replyToken = messageEvent?.replyToken;
     this.budget = new Budget(messageEvent?.replyToken);
+    this.transaction = new Transaction(messageEvent?.replyToken);
 
     await this.checkPatternMessage();
   }
@@ -72,7 +75,7 @@ class MessageHandler extends MessageAPI {
         }
       }
 
-      if (textClean.includes("bgs")) {
+      if (textClean.substring(0, 3) === "bgs") {
         const [_, name, alias, budgetAmount] = textClean.split(" ");
 
         await this.budget.createBudget({
@@ -82,10 +85,13 @@ class MessageHandler extends MessageAPI {
         });
       }
 
-      if (textClean.includes("bga")) {
-        const [prefix, title, price] = textClean.split(" ");
-        console.log(prefix, title, price, this.budget.createBudget());
-        //todo call create transaction
+      if (textClean.substring(0, 3) === "bga") {
+        const [_, alias, amount] = textClean.split(" ");
+
+        await this.transaction.createTransaction({
+          alias,
+          amount: parseInt(amount),
+        });
       }
     }
 

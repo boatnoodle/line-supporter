@@ -28,7 +28,6 @@ model Transaction {
   updatedAt    DateTime   @updatedAt
   budgetPlan   BudgetPlan @relation(fields: [budgetPlanId], references: [id])
   budgetPlanId Int
-  title        String     @db.VarChar(255)
   amount       Float      @db.Float()
 
   @@index([budgetPlanId])

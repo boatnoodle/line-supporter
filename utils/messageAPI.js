@@ -15,7 +15,10 @@ class MessageAPI {
     try {
       await this.client.replyMessage(this.replyToken, message);
     } catch (error) {
-      console.log(error, "error");
+      await this.client.replyMessage(this.replyToken, {
+        type: "text",
+        text: `❌ ${error?.message}`,
+      });
     }
   }
 }

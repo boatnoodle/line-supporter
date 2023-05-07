@@ -11,20 +11,35 @@ class Budget extends MessageAPI {
   async createBudget(input) {
     try {
       const response = await prisma.budgetPlan.create({ data: input });
-      if (response)
+      if (response) {
         await this.sendReplyMessage({
           type: "text",
-          text: "Budget has been set!",
+          text: "✅ Budget has been set!",
         });
+
+        return response;
+      }
     } catch (error) {
       await this.sendReplyMessage({
         type: "text",
-        text: error?.message,
+        text: `❌ ${error?.message}`,
       });
     }
   }
 
-  addTransaction() {}
+  async updateBudgetById(id, data) {
+    try {
+      const response = await prisma.budgetPlan.update({ where: { id }, data });
+      return response;
+    } catch (error) {
+      await this.sendReplyMessage({
+        type: "text",
+        text: `❌ ${error?.message}`,
+      });
+    }
+  }
+
+  async getBudgetReport(budgetId) {}
 }
 
 module.exports = Budget;
