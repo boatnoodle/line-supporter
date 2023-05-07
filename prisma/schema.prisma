@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model BudgetPlan {
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  name          String        @db.VarChar(255)
+  maximumAmount Float         @db.Float()
+  currentAmount Float         @db.Float()
+  transactions  Transaction[]
+}
+
+model Item {
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  name         String        @db.VarChar(255)
+  price        Float         @db.Float()
+  shortcut     String        @db.VarChar(255)
+  transactions Transaction[]
+}
+
+model Transaction {
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  budgetPlan   BudgetPlan @relation(fields: [budgetPlanId], references: [id])
+  budgetPlanId Int
+  item         Item       @relation(fields: [itemId], references: [id])
+  itemId       Int
+
+  @@index([budgetPlanId])
+  @@index([itemId])
+}

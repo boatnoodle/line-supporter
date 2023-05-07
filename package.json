@@ -6,14 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx functions-framework --target=lineWebhookFunction",
-    "start:nodemon": "nodemon --exec \"npx functions-framework --target=lineWebhookFunction\""
+    "dev": "nodemon --exec \"npx functions-framework --target=lineWebhookFunction\" & yarn db:start",
+    "db:start": "pscale connect my-daily-life develop --port 3309",
+    "ps:studio": "npx prisma studio"
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^3.0.0",
     "@line/bot-sdk": "^7.5.2",
+    "@prisma/client": "^4.13.0",
     "dotenv": "^16.0.3"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^4.13.0"
+  }
 }
