@@ -6,12 +6,12 @@ class RouterEventHandler extends MessageHandler {
     this.events = req.body.events;
   }
 
-  initRouter() {
+  async initRouter() {
     for (const event of this.events) {
       console.log(event, "event");
       switch (event?.type) {
         case "message":
-          this.handlerMessage(event);
+          await this.handlerMessage(event);
           break;
 
         default:

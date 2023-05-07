@@ -16,19 +16,10 @@ model BudgetPlan {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   name          String        @db.VarChar(255)
-  maximumAmount Float         @db.Float()
-  currentAmount Float         @db.Float()
+  alias         String        @unique
+  budgetAmount  Float         @db.Float()
+  currentAmount Float         @default(0)
   transactions  Transaction[]
-}
-
-model Item {
-  id           Int           @id @default(autoincrement())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  name         String        @db.VarChar(255)
-  price        Float         @db.Float()
-  shortcut     String        @db.VarChar(255)
-  transactions Transaction[]
 }
 
 model Transaction {
@@ -37,9 +28,8 @@ model Transaction {
   updatedAt    DateTime   @updatedAt
   budgetPlan   BudgetPlan @relation(fields: [budgetPlanId], references: [id])
   budgetPlanId Int
-  item         Item       @relation(fields: [itemId], references: [id])
-  itemId       Int
+  title        String     @db.VarChar(255)
+  amount       Float      @db.Float()
 
   @@index([budgetPlanId])
-  @@index([itemId])
 }

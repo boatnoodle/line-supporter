@@ -1,4 +1,5 @@
 const { MessageAPI } = require("../utils/messageAPI");
+const Budget = require("./budget");
 
 class MessageHandler extends MessageAPI {
   messageType;
@@ -6,22 +7,24 @@ class MessageHandler extends MessageAPI {
   emojis;
   mention;
   replyToken;
+  budget;
 
   constructor() {
     super();
   }
 
-  handlerMessage(messageEvent) {
+  async handlerMessage(messageEvent) {
     this.messageType = messageEvent?.type;
     this.message = messageEvent?.message;
     this.emojis = messageEvent?.emojis;
     this.mention = messageEvent?.mention;
     this.replyToken = messageEvent?.replyToken;
+    this.budget = new Budget(messageEvent?.replyToken);
 
-    this.checkPatternMessage();
+    await this.checkPatternMessage();
   }
 
-  checkPatternMessage() {
+  async checkPatternMessage() {
     if (this.messageType == "message") {
       const { type, id, text } = this.message;
       const textClean = text.toLowerCase();
@@ -68,12 +71,26 @@ class MessageHandler extends MessageAPI {
         if (firstChar === "h") {
         }
       }
+
+      if (textClean.includes("bgs")) {
+        const [_, name, alias, budgetAmount] = textClean.split(" ");
+
+        await this.budget.createBudget({
+          name,
+          alias,
+          budgetAmount: parseInt(budgetAmount),
+        });
+      }
+
+      if (textClean.includes("bga")) {
+        const [prefix, title, price] = textClean.split(" ");
+        console.log(prefix, title, price, this.budget.createBudget());
+        //todo call create transaction
+      }
     }
 
     if (this.messageType == "sticker") {
     }
-
-    // this.sendReplyMessage({ type: "text", text: "หิวยังครับ?" });
   }
 }
 

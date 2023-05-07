@@ -4,14 +4,14 @@ const { ValidateSignature } = require("./utils/validateSignature");
 const { RouterEventHandler } = require("./utils/routerEventHandler");
 
 // Register an HTTP function with the Functions Framework
-functions.http("lineWebhookFunction", (req, res) => {
+functions.http("lineWebhookFunction", async (req, res) => {
   const validateSignature = new ValidateSignature(req);
   if (!validateSignature.isSecureRequest()) {
     res.send(403, "Invalid signature");
   }
 
   const routerEventHandler = new RouterEventHandler(req, res);
-  routerEventHandler.initRouter();
+  await routerEventHandler.initRouter();
 
   res.send("OK");
 });
