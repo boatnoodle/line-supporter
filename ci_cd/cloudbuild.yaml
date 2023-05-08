@@ -2,8 +2,7 @@ steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
   dir: './'
-- name: node
-  entrypoint: npm
+- name: 'gcr.io/cloud-builders/npm'
   args: ['run', ps:generate']
   dir: './'
 - name: 'gcr.io/cloud-builders/gcloud'
