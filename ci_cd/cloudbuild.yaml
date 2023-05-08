@@ -3,7 +3,8 @@ steps:
   args: ['install']
   dir: './'
 - name: 'gcr.io/cloud-builders/npm'
-  args: ['run', ps:generate']
+  entrypoint: 'npx'
+  args: ['prisma', 'generate']
   dir: './'
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['functions', 'deploy', 'line-webhook', '--region', 'asia-east1', '--trigger-http', '--runtime', 'nodejs18', '--entry-point', 'lineWebhookFunction']
