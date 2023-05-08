@@ -2,6 +2,9 @@ steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
   dir: './'
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['ps:generate']
+  dir: './'
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['functions', 'deploy', 'line-webhook', '--region', 'asia-east1', '--trigger-http', '--runtime', 'nodejs18', '--entry-point', 'lineWebhookFunction']
   dir: './'

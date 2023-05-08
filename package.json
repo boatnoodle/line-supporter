@@ -8,7 +8,8 @@
     "start": "npx functions-framework --target=lineWebhookFunction",
     "dev": "nodemon --exec \"npx functions-framework --target=lineWebhookFunction\" & yarn db:start",
     "db:start": "pscale connect my-daily-life develop --port 3309",
-    "ps:studio": "npx prisma studio"
+    "ps:studio": "npx prisma studio",
+    "ps:generate": "npx prisma generate"
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^3.0.0",
